@@ -5,7 +5,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const colorInput = document.getElementById("color-input");
 
   let noteColor = localStorage.getItem("noteColor"); // Stores the selected note color from the form.
-  let noteIdCounter = localStorage.getItem("noteIdCounter") || 0; // Counter for assigning unique IDs to new notes.
+  let noteIdCounter = parseInt(localStorage.getItem("noteIdCounter")) || 0; // Counter for assigning unique IDs to new notes.
 
   // TODO: Load the notes from the local storage.
 
