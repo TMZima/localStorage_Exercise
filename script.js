@@ -83,9 +83,20 @@ document.addEventListener("DOMContentLoaded", function () {
 
   document.addEventListener("dblclick", function (event) {
     if (event.target.classList.contains("note")) {
+      const noteId = event.target.getAttribute("data-note-id"); // Get the note's ID.
       event.target.remove(); // Removes the clicked note.
 
-      // TODO: Delete the note from the saved notes in the local storage.
+      // Retrieve the existing notes from local storage and parse them into an array.
+      const notes = JSON.parse(localStorage.getItem("notes")) || [];
+      // Filter out the note with the matching ID.
+      const updatedNotes = [];
+      for (const note of notes) {
+        if (note.id.toString() !== noteId) {
+          updatedNotes.push(note);
+        }
+      }
+      // Save the updated array of notes back to local storage.
+      localStorage.setItem("notes", JSON.stringify(updatedNotes));
     }
   });
 
