@@ -7,7 +7,28 @@ document.addEventListener("DOMContentLoaded", function () {
   let noteColor = localStorage.getItem("noteColor"); // Stores the selected note color from the form.
   let noteIdCounter = parseInt(localStorage.getItem("noteIdCounter")) || 0; // Counter for assigning unique IDs to new notes.
 
-  // TODO: Load the notes from the local storage.
+  function loadNotes() {
+    // Retrieve the notes from local storage and parse them into an array.
+    // If there are no notes, initialize with an empty array.
+    const notes = JSON.parse(localStorage.getItem("notes")) || [];
+
+    // Iterate over each note in the array.
+    for (const note of notes) {
+      const id = note.id; // Get the note's unique ID.
+      const content = note.content; // Get the note's content.
+      const color = note.color; // Get the note's background color.
+
+      // Create a new textarea element for the note.
+      const noteElement = document.createElement("textarea");
+      noteElement.setAttribute("data-note-id", id.toString()); // Set the note's ID as a data attribute.
+      noteElement.value = content; // Set the note's content.
+      noteElement.className = "note"; // Assign the "note" class to the textarea.
+      noteElement.style.backgroundColor = color; // Set the note's background color.
+
+      // Append the note element to the note container.
+      noteContainer.appendChild(noteElement);
+    }
+  }
 
   function addNewNote() {
     const id = noteIdCounter;
