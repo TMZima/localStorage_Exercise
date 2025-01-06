@@ -4,7 +4,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const colorForm = document.getElementById("color-form");
   const colorInput = document.getElementById("color-input");
 
-  let noteColor = localStorage.getItem("noteColor"); // Stores the selected note color from the form.
+  let noteColor = localStorage.getItem("noteColor") || "#ffffff"; // Stores the selected note color from the form. Default is white.
   let noteIdCounter = parseInt(localStorage.getItem("noteIdCounter")) || 0; // Counter for assigning unique IDs to new notes.
 
   function loadNotes() {
@@ -69,6 +69,15 @@ document.addEventListener("DOMContentLoaded", function () {
       note.style.backgroundColor = newColor;
     }
 
+    // Update the color of each note in the array from local storage.
+    const notesArray = JSON.parse(localStorage.getItem("notes")) || [];
+    for (const note of notesArray) {
+      note.color = newColor;
+    }
+
+    // Save the updated array of notes back to local storage.
+    localStorage.setItem("notes", JSON.stringify(notesArray));
+
     colorInput.value = ""; // Clears the color input field after from submission.
 
     noteColor = newColor; // Updates the stored note color with the new selection.
@@ -104,7 +113,19 @@ document.addEventListener("DOMContentLoaded", function () {
     "blur",
     function (event) {
       if (event.target.classList.contains("note")) {
-        // TODO: Update the note from the saved notes in the local storage.
+        const noteId = event.target.getAttribute("data-note-id");
+        const updatedContent = event.target.value; // Get the updated content.
+        // Retrieve the existing notes from local storage and parse them in an array.
+        const notes = JSON.parse(localStorage.getItem("notes")) || [];
+        // Find the note with the matching ID and update its content.
+        for (const note of notes) {
+          if (note.id.toString() === noteId) {
+            note.content = updatedContent;
+            break;
+          }
+        }
+        // Save the updated array of notes back to local storage.
+        localStorage.setItem("notes", JSON.stringify(notes));
       }
     },
     true
@@ -121,4 +142,6 @@ document.addEventListener("DOMContentLoaded", function () {
       addNewNote(); // Adds a new note.
     }
   });
+  // Load notes when the page is loaded.
+  loadNotes();
 });
