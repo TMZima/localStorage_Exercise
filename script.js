@@ -73,7 +73,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
     noteColor = newColor; // Updates the stored note color with the new selection.
 
-    // TODO: Update the note color in the local storage.
+    // Update the note color in the local storage.
+    localStorage.setItem("noteColor", noteColor);
   });
 
   newNoteButton.addEventListener("click", function () {
