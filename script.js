@@ -44,6 +44,24 @@ document.addEventListener("DOMContentLoaded", function () {
     noteIdCounter++; // Increments the counter since the ID is used for this note.
 
     // TODO: Add new note to the saved notes in the local storage.
+    // Retrieve the existing notes from local storage and parse them into an array.
+    const notes = JSON.parse(localStorage.getItem("notes")) || [];
+
+    // Create a new note object with the current ID, content, and color.
+    const newNote = {
+      id: id,
+      content: content,
+      color: noteColor,
+    };
+
+    // Add the new note to the array of notes.
+    notes.push(newNote);
+
+    // Save the updated array of notes back to local storage.
+    localStorage.setItem("notes", JSON.stringify(notes));
+
+    // Update the note ID counter in local storage.
+    localStorage.setItem("noteIdCounter", noteIdCounter);
   }
 
   colorForm.addEventListener("submit", function (event) {
